@@ -1,0 +1,15 @@
+---
+- hosts: webservers
+  tasks:
+   - name: Create Dockerfile
+     copy:
+      dest: '/home/devasc/s225878380/Dockerfile'
+      content: |
+       FROM httpd:2.4-alpine
+       COPY ./index.html /usr/local/apache2/htdocs/
+       Expose 80
+       CMD ["httpd-foreground"]
+   - name: Build Dockerfile
+     command: docker build -t website /home/devasc/s225878380/
+   - name: Run Dockerfile
+     command: docker run -t -d -p 8080:80 --name student website
